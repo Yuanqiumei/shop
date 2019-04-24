@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.website.dao.TbGoodsDao" >
+  <resultMap id="BaseResultMap" type="com.shopping.website.pojo.TbGoods" >
+    <id column="goodsId" property="goodsid" jdbcType="INTEGER" />
+    <result column="goodsTitle" property="goodstitle" jdbcType="VARCHAR" />
+    <result column="goodsContent" property="goodscontent" jdbcType="VARCHAR" />
+    <result column="goodsPrice" property="goodsprice" jdbcType="DECIMAL" />
+    <result column="goodsImg" property="goodsimg" jdbcType="VARCHAR" />
+    <result column="goodsNumber" property="goodsnumber" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      goodsId, goodsTitle, goodsPrice, goodsImg, goodsNumber,goodsContent
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shopping.website.pojo.TbGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goodsmessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    goodsId,goodsTitle,goodsPrice,goodsImg,goodsNumber,goodsContent
+    from goodsmessage
+    where goodsId = #{goodsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goodsmessage
+    where goodsId = #{goodsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shopping.website.pojo.TbGoodsExample" >
+    delete from goodsmessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shopping.website.pojo.TbGoods" >
+    insert into goodsmessage (goodsId, goodsTitle, goodsPrice,goodsContent, 
+      goodsImg, goodsNumber)
+    values (#{goodsid,jdbcType=INTEGER}, #{goodstitle,jdbcType=VARCHAR}, #{goodsprice,jdbcType=DECIMAL}, #{goodscontent,jdbcType=INTEGER},
+      #{goodsimg,jdbcType=VARCHAR}, #{goodsnumber,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shopping.website.pojo.TbGoods" >
+    insert into goodsmessage
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="goodsid != null" >
+        goodsId,
+      </if>
+      <if test="goodstitle != null" >
+        goodsTitle,
+      </if>
+      <if test="goodsprice != null" >
+        goodsPrice,
+      </if>
+      <if test="goodscontent != null" >
+        goodsContent,
+      </if>
+      <if test="goodsimg != null" >
+        goodsImg,
+      </if>
+      <if test="goodsnumber != null" >
+        goodsNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodstitle != null" >
+        #{goodstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsprice != null" >
+        #{goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodscontent != null" >
+        #{goodscontent,jdbcType=INTEGER},
+      </if>
+      <if test="goodsimg != null" >
+        #{goodsimg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsnumber != null" >
+        #{goodsnumber,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shopping.website.pojo.TbGoodsExample" resultType="java.lang.Integer" >
+    select count(*) from goodsmessage
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goodsmessage
+    <set >
+      <if test="record.goodsid != null" >
+        goodsId = #{record.goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodstitle != null" >
+        goodsTitle = #{record.goodstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsprice != null" >
+        goodsPrice = #{record.goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goodcontent != null" >
+        goodsContent = #{record.goodscontent,jdbcType=DECIMAL},
+      </if>
+      <if test="record.goodsimg != null" >
+        goodsImg = #{record.goodsimg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsnumber != null" >
+        goodsNumber = #{record.goodsnumber,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goodsmessage
+    set goodsId = #{record.goodsid,jdbcType=INTEGER},
+      goodsTitle = #{record.goodstitle,jdbcType=VARCHAR},
+      goodsPrice = #{record.goodsprice,jdbcType=DECIMAL},
+      goodsContent = #{record.goodscontent,jdbcType=DECIMAL},
+      goodsImg = #{record.goodsimg,jdbcType=VARCHAR},
+      goodsNumber = #{record.goodsnumber,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shopping.website.pojo.TbGoods" >
+    update goodsmessage
+    <set >
+      <if test="goodstitle != null" >
+        goodsTitle = #{goodstitle,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsprice != null" >
+        goodsPrice = #{goodsprice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodcontent != null" >
+      	goodsContent = #{record.goodscontent,jdbcType=DECIMAL},
+      	</if>
+      <if test="goodsimg != null" >
+        goodsImg = #{goodsimg,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsnumber != null" >
+        goodsNumber = #{goodsnumber,jdbcType=INTEGER},
+      </if>
+    </set>
+    where goodsId = #{goodsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shopping.website.pojo.TbGoods" >
+    update goodsmessage
+    set goodsTitle = #{goodstitle,jdbcType=VARCHAR},
+      goodsPrice = #{goodsprice,jdbcType=DECIMAL},
+      goodsContent = #{record.goodscontent,jdbcType=DECIMAL},
+      goodsImg = #{goodsimg,jdbcType=VARCHAR},
+      goodsNumber = #{goodsnumber,jdbcType=INTEGER}
+    where goodsId = #{goodsid,jdbcType=INTEGER}
+  </update>
+</mapper>

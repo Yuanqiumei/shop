@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.shopping.website.dao.AddressDao" >
+  <resultMap id="BaseResultMap" type="com.shopping.website.pojo.Address" >
+    <id column="addressId" property="addressid" jdbcType="INTEGER" />
+    <result column="userName" property="username" jdbcType="VARCHAR" />
+    <result column="addressDetail" property="addressdetail" jdbcType="VARCHAR" />
+    <result column="Phone" property="phone" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      addressId, userName, Phone, addressDetail
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.shopping.website.pojo.AddressExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="startRow != null" >
+      limit #{startRow} , #{pageSize}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    addressId,userName,Phone,addressDetail
+    from address
+    where addressId = #{addressid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from address
+    where addressId = #{addressid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.shopping.website.pojo.AddressExample" >
+    delete from address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.shopping.website.pojo.Address" >
+    insert into address (addressId, userName, Phone,addressDetail)
+    values (#{addressid,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{phone,jdbcType=DECIMAL}, #{addressdetail,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.shopping.website.pojo.Address" >
+    insert into address
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addressid != null" >
+        addressId,
+      </if>
+      <if test="username != null" >
+        userName,
+      </if>
+      <if test="phone != null" >
+        Phone,
+      </if>
+      <if test="addressdetail != null" >
+        addressDetail,
+      </if>
+      <if test="goodsimg != null" >
+        goodsImg,
+      </if>
+      <if test="goodsnumber != null" >
+        goodsNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addressid != null" >
+        #{addressid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="addressdetail != null" >
+        #{addressdetail,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.shopping.website.pojo.AddressExample" resultType="java.lang.Integer" >
+    select count(*) from address
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update address
+    <set >
+      <if test="record.addressid != null" >
+        addressId = #{record.addressid,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        userName = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        Phone = #{record.phone,jdbcType=DECIMAL},
+      </if>
+      <if test="record.addressdetail != null" >
+        addressDetail = #{record.addressdetail,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update address
+    set addressId = #{record.addressid,jdbcType=INTEGER},
+      userName = #{record.username,jdbcType=VARCHAR},
+      Phone = #{record.phone,jdbcType=DECIMAL},
+      addressDetail = #{record.addressdetail,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.shopping.website.pojo.Address" >
+    update address
+    <set >
+      <if test="username != null" >
+        userName = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        Phone = #{phone,jdbcType=DECIMAL},
+      </if>
+      <if test="addressdetail != null" >
+      	addressDetail = #{record.addressdetail,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where addressId = #{addressid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.shopping.website.pojo.Address" >
+    update address
+    set userName = #{username,jdbcType=VARCHAR},
+      Phone = #{phone,jdbcType=DECIMAL},
+      addressDetail = #{record.addressdetail,jdbcType=DECIMAL},
+    where addressId = #{addressid,jdbcType=INTEGER}
+  </update>
+</mapper>
